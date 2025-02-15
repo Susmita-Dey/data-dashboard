@@ -26,49 +26,52 @@ import { ChevronUp, ChevronDown } from "lucide-react";
 import mockData from "@/data/mockData";
 
 const DataTable = () => {
-  const [selectedRow, setSelectedRow] = useState(null);
+  const [selectedRow, setSelectedRow] = useState<null | (typeof mockData)[0]>(
+    null
+  );
   const [searchQuery, setSearchQuery] = useState("");
-  const [sortedField, setSortedField] = useState(null);
+  const [sortedField, setSortedField] = useState<string | null>(null);
   const [ascending, setAscending] = useState(true);
   const [filters, setFilters] = useState({
     country: "",
-    ad_network: "",
+    adNetwork: "",
     os: "",
   });
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
-  const handleSort = (field) => {
+  const handleSort = (field: string) => {
     setAscending(sortedField === field ? !ascending : true);
     setSortedField(field);
   };
 
-  const handleFilterChange = (field, value) => {
+  const handleFilterChange = (field: string, value: string) => {
     setFilters({ ...filters, [field]: value });
   };
 
   const clearFilters = () => {
-    setFilters({ country: "", ad_network: "", os: "" });
+    setFilters({ country: "", adNetwork: "", os: "" });
   };
 
   const filteredData = mockData
     .filter((item) =>
-      item.creative_name.toLowerCase().includes(searchQuery.toLowerCase())
+      item.creativeName.toLowerCase().includes(searchQuery.toLowerCase())
     )
     .filter((item) =>
       filters.country ? item.country === filters.country : true
     )
     .filter((item) =>
-      filters.ad_network ? item.ad_network === filters.ad_network : true
+      filters.adNetwork ? item.adNetwork === filters.adNetwork : true
     )
     .filter((item) => (filters.os ? item.os === filters.os : true))
     .sort((a, b) => {
       if (!sortedField) return 0;
+      const field = sortedField as keyof typeof a;
       return ascending
-        ? a[sortedField] > b[sortedField]
+        ? a[field] > b[field]
           ? 1
           : -1
-        : a[sortedField] < b[sortedField]
+        : a[field] < b[field]
         ? 1
         : -1;
     });
@@ -92,7 +95,7 @@ const DataTable = () => {
         <Select onValueChange={(value) => handleFilterChange("country", value)}>
           <SelectTrigger className="w-40">Country</SelectTrigger>
           <SelectContent>
-            <SelectItem value="">All</SelectItem>
+            <SelectItem value="All">All</SelectItem>
             {[...new Set(mockData.map((item) => item.country))].map(
               (country) => (
                 <SelectItem key={country} value={country}>
@@ -103,12 +106,12 @@ const DataTable = () => {
           </SelectContent>
         </Select>
         <Select
-          onValueChange={(value) => handleFilterChange("ad_network", value)}
+          onValueChange={(value) => handleFilterChange("adNetwork", value)}
         >
           <SelectTrigger className="w-40">Ad Network</SelectTrigger>
           <SelectContent>
-            <SelectItem value="">All</SelectItem>
-            {[...new Set(mockData.map((item) => item.ad_network))].map(
+            <SelectItem value="All">All</SelectItem>
+            {[...new Set(mockData.map((item) => item.adNetwork))].map(
               (network) => (
                 <SelectItem key={network} value={network}>
                   {network}
@@ -120,7 +123,7 @@ const DataTable = () => {
         <Select onValueChange={(value) => handleFilterChange("os", value)}>
           <SelectTrigger className="w-40">OS</SelectTrigger>
           <SelectContent>
-            <SelectItem value="">All</SelectItem>
+            <SelectItem value="All">All</SelectItem>
             {[...new Set(mockData.map((item) => item.os))].map((os) => (
               <SelectItem key={os} value={os}>
                 {os}
@@ -136,19 +139,19 @@ const DataTable = () => {
         <TableHeader>
           <TableRow>
             <TableHead
-              onClick={() => handleSort("creative_id")}
+              onClick={() => handleSort("creativeId")}
               className="cursor-pointer flex items-center gap-1"
             >
               ID{" "}
-              {sortedField === "creative_id" &&
+              {sortedField === "creativeId" &&
                 (ascending ? <ChevronUp /> : <ChevronDown />)}
             </TableHead>
             <TableHead
-              onClick={() => handleSort("creative_name")}
+              onClick={() => handleSort("creativeName")}
               className="cursor-pointer flex items-center gap-1"
             >
               Name{" "}
-              {sortedField === "creative_name" &&
+              {sortedField === "creativeName" &&
                 (ascending ? <ChevronUp /> : <ChevronDown />)}
             </TableHead>
             <TableHead>Tags</TableHead>
@@ -160,15 +163,15 @@ const DataTable = () => {
         <TableBody>
           {displayedData.map((item) => (
             <TableRow
-              key={item.creative_id}
+              key={item.creativeId}
               className="cursor-pointer hover:bg-gray-100"
               onClick={() => setSelectedRow(item)}
             >
-              <TableCell>{item.creative_id}</TableCell>
-              <TableCell>{item.creative_name}</TableCell>
+              <TableCell>{item.creativeId}</TableCell>
+              <TableCell>{item.creativeName}</TableCell>
               <TableCell>{item.tags.join(", ")}</TableCell>
               <TableCell>{item.country}</TableCell>
-              <TableCell>{item.ad_network}</TableCell>
+              <TableCell>{item.adNetwork}</TableCell>
               <TableCell>{item.os}</TableCell>
             </TableRow>
           ))}
@@ -196,16 +199,16 @@ const DataTable = () => {
       <Dialog open={!!selectedRow} onOpenChange={() => setSelectedRow(null)}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>{selectedRow?.creative_name}</DialogTitle>
+            <DialogTitle>{selectedRow?.creativeName}</DialogTitle>
             <DialogDescription>
               <p>
-                <strong>ID:</strong> {selectedRow?.creative_id}
+                <strong>ID:</strong> {selectedRow?.creativeId}
               </p>
               <p>
                 <strong>Country:</strong> {selectedRow?.country}
               </p>
               <p>
-                <strong>Ad Network:</strong> {selectedRow?.ad_network}
+                <strong>Ad Network:</strong> {selectedRow?.adNetwork}
               </p>
               <p>
                 <strong>OS:</strong> {selectedRow?.os}

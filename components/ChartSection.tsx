@@ -17,15 +17,15 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
 const processData = () => {
-  const countryData = mockData.reduce((acc, item) => {
+  const countryData = mockData.reduce((acc: Record<string, number>, item) => {
     acc[item.country] = (acc[item.country] || 0) + 1;
     return acc;
-  }, {});
+  }, {} as Record<string, number>);
 
-  const adNetworkData = mockData.reduce((acc, item) => {
-    acc[item.ad_network] = (acc[item.ad_network] || 0) + 1;
+  const adNetworkData = mockData.reduce((acc: Record<string, number>, item) => {
+    acc[item.adNetwork] = (acc[item.adNetwork] || 0) + 1;
     return acc;
-  }, {});
+  }, {} as Record<string, number>);
 
   return {
     countryChart: Object.keys(countryData).map((key) => ({
