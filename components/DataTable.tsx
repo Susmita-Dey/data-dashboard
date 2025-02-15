@@ -22,7 +22,7 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
-import { ChevronUp, ChevronDown } from "lucide-react";
+// import { ChevronUp, ChevronDown } from "lucide-react";
 import mockData from "@/data/mockData";
 
 const DataTable = () => {
@@ -30,8 +30,8 @@ const DataTable = () => {
     null
   );
   const [searchQuery, setSearchQuery] = useState("");
-  const [sortedField, setSortedField] = useState<string | null>(null);
-  const [ascending, setAscending] = useState(true);
+  // const [sortedField, setSortedField] = useState<string | null>(null);
+  // const [ascending, setAscending] = useState(true);
   const [filters, setFilters] = useState({
     country: "",
     adNetwork: "",
@@ -40,10 +40,10 @@ const DataTable = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
-  const handleSort = (field: string) => {
-    setAscending(sortedField === field ? !ascending : true);
-    setSortedField(field);
-  };
+  // const handleSort = (field: string) => {
+  //   setAscending(sortedField === field ? !ascending : true);
+  //   setSortedField(field);
+  // };
 
   const handleFilterChange = (field: string, value: string) => {
     setFilters({ ...filters, [field]: value });
@@ -63,18 +63,18 @@ const DataTable = () => {
     .filter((item) =>
       filters.adNetwork ? item.adNetwork === filters.adNetwork : true
     )
-    .filter((item) => (filters.os ? item.os === filters.os : true))
-    .sort((a, b) => {
-      if (!sortedField) return 0;
-      const field = sortedField as keyof typeof a;
-      return ascending
-        ? a[field] > b[field]
-          ? 1
-          : -1
-        : a[field] < b[field]
-        ? 1
-        : -1;
-    });
+    .filter((item) => (filters.os ? item.os === filters.os : true));
+  // .sort((a, b) => {
+  //   if (!sortedField) return 0;
+  //   const field = sortedField as keyof typeof a;
+  //   return ascending
+  //     ? a[field] > b[field]
+  //       ? 1
+  //       : -1
+  //     : a[field] < b[field]
+  //     ? 1
+  //     : -1;
+  // });
 
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
   const displayedData = filteredData.slice(
@@ -139,20 +139,21 @@ const DataTable = () => {
         <TableHeader>
           <TableRow>
             <TableHead
-              onClick={() => handleSort("creativeId")}
-              className="cursor-pointer flex items-center gap-1"
+            // onClick={() => handleSort("creativeId")}
+            // className="cursor-pointer flex items-center gap-1"
             >
-              ID{" "}
+              ID
+              {/* ID{" "}
               {sortedField === "creativeId" &&
-                (ascending ? <ChevronUp /> : <ChevronDown />)}
+                (ascending ? <ChevronUp /> : <ChevronDown />)} */}
             </TableHead>
             <TableHead
-              onClick={() => handleSort("creativeName")}
-              className="cursor-pointer flex items-center gap-1"
+            // onClick={() => handleSort("creativeName")}
+            // className="cursor-pointer flex items-center gap-1"
             >
-              Name{" "}
-              {sortedField === "creativeName" &&
-                (ascending ? <ChevronUp /> : <ChevronDown />)}
+              Name
+              {/* {sortedField === "creativeName" &&
+                (ascending ? <ChevronUp /> : <ChevronDown />)} */}
             </TableHead>
             <TableHead>Tags</TableHead>
             <TableHead>Country</TableHead>
@@ -160,7 +161,7 @@ const DataTable = () => {
             <TableHead>OS</TableHead>
           </TableRow>
         </TableHeader>
-        <TableBody>
+        <TableBody className="divide-y-4 divide-black divide-x-8 overflow-auto">
           {displayedData.map((item) => (
             <TableRow
               key={item.creativeId}
@@ -201,21 +202,21 @@ const DataTable = () => {
           <DialogHeader>
             <DialogTitle>{selectedRow?.creativeName}</DialogTitle>
             <DialogDescription>
-              <p>
+              <span>
                 <strong>ID:</strong> {selectedRow?.creativeId}
-              </p>
-              <p>
+              </span>
+              <span>
                 <strong>Country:</strong> {selectedRow?.country}
-              </p>
-              <p>
+              </span>
+              <span>
                 <strong>Ad Network:</strong> {selectedRow?.adNetwork}
-              </p>
-              <p>
+              </span>
+              <span>
                 <strong>OS:</strong> {selectedRow?.os}
-              </p>
-              <p>
+              </span>
+              <span>
                 <strong>Tags:</strong> {selectedRow?.tags.join(", ")}
-              </p>
+              </span>
             </DialogDescription>
           </DialogHeader>
           <Button onClick={() => setSelectedRow(null)}>Close</Button>
