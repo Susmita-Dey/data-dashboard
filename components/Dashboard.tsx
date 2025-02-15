@@ -17,6 +17,7 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
+import FilterComponent from "./FilterComponent";
 
 const Dashboard = () => {
   return (
@@ -52,6 +53,7 @@ const Dashboard = () => {
           <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min" />
         </div> */}
           <ChartSection />
+          <FilterComponent onFilter={(data) => console.log(data)} />
           <DataTable />
         </SidebarInset>
       </SidebarProvider>

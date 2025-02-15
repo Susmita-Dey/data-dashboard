@@ -51,7 +51,8 @@ const FilterComponent = ({ onFilter }: FilterComponentProps) => {
 
     if (metricFilter.field && metricFilter.value) {
       filteredData = filteredData.filter((item) => {
-        const itemValue = parseFloat(item[metricFilter.field]);
+        const field = metricFilter.field as keyof typeof item;
+        const itemValue = parseFloat(item[field] as unknown as string);
         const filterValue = parseFloat(metricFilter.value);
 
         switch (metricFilter.condition) {
