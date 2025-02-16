@@ -78,15 +78,16 @@ const DataTable = () => {
   };
 
   return (
-    <div className="p-6 bg-gray-50 rounded-lg shadow-md">
-      <div className="mb-4 flex gap-4 items-center">
+    <div className="container mx-auto max-w-7xl w-full p-6 bg-gray-50 rounded-lg shadow-md">
+      <div className="mb-4 flex md:flex-row flex-col gap-4 items-center">
         <input
           type="text"
           placeholder="Search..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="p-2 border rounded w-full"
+          className="p-2 border-2 rounded w-full"
         />
+        <div className="flex gap-4">
         <Select onValueChange={(value) => handleFilterChange("country", value)}>
           <SelectTrigger className="w-40">Country</SelectTrigger>
           <SelectContent>
@@ -100,101 +101,98 @@ const DataTable = () => {
             )}
           </SelectContent>
         </Select>
-        <Select
-          onValueChange={(value) => handleFilterChange("adNetwork", value)}
-        >
-          <SelectTrigger className="w-40">Ad Network</SelectTrigger>
-          <SelectContent>
-            <SelectItem value="All">All</SelectItem>
-            {[...new Set(mockData.map((item) => item.adNetwork))].map(
-              (network) => (
-                <SelectItem key={network} value={network}>
-                  {network}
-                </SelectItem>
-              )
-            )}
-          </SelectContent>
-        </Select>
-        <Select onValueChange={(value) => handleFilterChange("os", value)}>
-          <SelectTrigger className="w-40">OS</SelectTrigger>
-          <SelectContent>
-            <SelectItem value="All">All</SelectItem>
-            {[...new Set(mockData.map((item) => item.os))].map((os) => (
-              <SelectItem key={os} value={os}>
-                {os}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
         <Button onClick={clearFilters} variant="outline">
           Reset Filters
         </Button>
+        </div>
       </div>
-      <div className="overflow-hidden" suppressHydrationWarning>
-      <table className="min-w-full text-sm">
-          <thead>
-          <tr>
-            <th
-            // onClick={() => handleSort("creativeId")}
-            // className="cursor-pointer flex items-center gap-1"
-            >
-              ID
-              {/* ID{" "}
+      <div
+        className="md:overflow-hidden overflow-x-auto"
+        suppressHydrationWarning
+      >
+        <table className="min-w-full text-sm px-4">
+          <thead className="bg-slate-300 space-y-1">
+            <tr className="divide-x-2 divide-slate-200 space-x-2">
+              <th
+              // onClick={() => handleSort("creativeId")}
+              // className="cursor-pointer flex items-center gap-1"
+              >
+                ID
+                {/* ID{" "}
               {sortedField === "creativeId" &&
                 (ascending ? <ChevronUp /> : <ChevronDown />)} */}
-            </th>
-            <th
-            // onClick={() => handleSort("creativeName")}
-            // className="cursor-pointer flex items-center gap-1"
-            >
-              Name
-              {/* {sortedField === "creativeName" &&
+              </th>
+              <th
+              // onClick={() => handleSort("creativeName")}
+              // className="cursor-pointer flex items-center gap-1"
+              >
+                Name
+                {/* {sortedField === "creativeName" &&
                 (ascending ? <ChevronUp /> : <ChevronDown />)} */}
-            </th>
-            {/* <th>Tags</th> */}
-            <th>Country</th>
-            <th>Ad Network</th>
-            <th>OS</th>
-            <th>Campaign</th>
-            <th>Ad Group</th>
-            <th>IPM</th>
-            <th>CTR</th>,<th>Spend</th>
-            <th>Impressions</th>
-            <th>Clicks</th>
-            <th>CPM</th>
-            <th>Cost Per Click</th>
-            <th>Cost Per Install</th>
-            <th>Installs</th>
-          </tr>
-        </thead>
-        <tbody className="divide-y">
-          {displayedData.map((item) => (
-            <tr
-              key={item.creativeId}
-              className="cursor-pointer hover:bg-gray-200"
-              onClick={() => handleTextClick(item)}
-            >
-              <td>{item.creativeId}</td>
-              <td>{item.creativeName}</td>
-              {/* <td>{item.tags.join(", ")}</td> */}
-              <td>{item.country}</td>
-              <td>{item.adNetwork}</td>
-              <td>{item.os}</td>
-              <td>{item.campaign}</td>
-              <td>{item.adGroup}</td>
-              <td>{item.metrics.ipm}</td>
-              <td>{item.metrics.ctr}</td>
-              <td>{item.metrics.spend}</td>
-              <td>{item.metrics.impressions}</td>
-              <td>{item.metrics.clicks}</td>
-              <td>{item.metrics.cpm}</td>
-              <td>{item.metrics.costPerClick}</td>
-              <td>{item.metrics.costPerInstall}</td>
-              <td>{item.metrics.installs}</td>
+              </th>
+              {/* <th>Tags</th> */}
+              <th className="p-2">Country</th>
+              <th className="p-2">Ad Network</th>
+              <th className="p-2">OS</th>
+              <th className="p-2">Campaign</th>
+              <th className="p-2">Ad Group</th>
+              <th className="p-2">IPM</th>
+              <th className="p-2">CTR</th>
+              <th className="p-2">Spend</th>
+              <th className="p-2">Impressions</th>
+              <th className="p-2">Clicks</th>
+              <th className="p-2">CPM</th>
+              <th className="p-2">Cost Per Click</th>
+              <th className="p-2">Cost Per Install</th>
+              <th className="p-2">Installs</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody className="divide-y-2 text-xs space-y-1">
+            {displayedData.map((item) => (
+              <tr
+                key={item.creativeId}
+                className="cursor-pointer hover:bg-gray-200 divide-x-2 space-x-2"
+                onClick={() => handleTextClick(item)}
+              >
+                <td className="px-2 text-center">{item.creativeId}</td>
+                <td className="px-2 text-center">{item.creativeName}</td>
+                {/* <td>{item.tags.join(", ")}</td> */}
+                <td className="px-2 text-center">{item.country}</td>
+                <td className="px-2 text-center">{item.adNetwork}</td>
+                <td className="px-2 text-center">{item.os}</td>
+                <td className="px-2 text-center">{item.campaign}</td>
+                <td className="px-2 text-center">{item.adGroup}</td>
+                <td className="px-2 text-center">
+                  {item.metrics.ipm.toFixed(2)}
+                </td>
+                <td className="px-2 text-center">
+                  {item.metrics.ctr.toFixed(2)}
+                </td>
+                <td className="px-2 text-center">
+                  {item.metrics.spend.toFixed(2)}
+                </td>
+                <td className="px-2 text-center">
+                  {item.metrics.impressions.toFixed(2)}
+                </td>
+                <td className="px-2 text-center">
+                  {item.metrics.clicks.toFixed(2)}
+                </td>
+                <td className="px-2 text-center">
+                  {item.metrics.cpm.toFixed(2)}
+                </td>
+                <td className="px-2 text-center">
+                  {item.metrics.costPerClick.toFixed(2)}
+                </td>
+                <td className="px-2 text-center">
+                  {item.metrics.costPerInstall.toFixed(2)}
+                </td>
+                <td className="px-2 text-center">
+                  {item.metrics.installs.toFixed(2)}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
       <div className="flex justify-between items-center mt-4">
         <Button
