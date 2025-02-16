@@ -1,37 +1,61 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Data Dashboard
 
-## Getting Started
+This project is a frontend assignment given by Segwise company. It is a data dashboard that displays various metrics and allows users to filter and sort the data. The dashboard also includes a popup that shows detailed information about a selected item.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Search functionality to filter data by creative name.
+- Sorting functionality to sort data by different fields.
+- Filtering functionality to filter data by country, ad network, and OS.
+- Pagination to navigate through the data.
+- Popup to display detailed information about a selected item.
+- Responsive design to ensure the dashboard works well on different screen sizes.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Technologies Used
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Next.js
+- React
+- TypeScript
+- Tailwind CSS
+- Shadcn
+- Lucide React (for icons)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## How to Clone and Run Locally
 
-## Learn More
+1.  Clone the repository:
 
-To learn more about Next.js, take a look at the following resources:
+    ```bash
+    git clone https://github.com/Susmita-Dey/data-dashboard.git
+    ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+2.  Navigate to the project directory:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+    ```bash
+    cd data-dashboard
+    ```
 
-## Deploy on Vercel
+3.  Install the dependencies:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+    ```bash
+    npm install
+    ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-"# segwise-assignment" 
+4.  Run the development server:
+
+    ```bash
+    npm run dev
+    ```
+
+5.  Open your browser and navigate to http://localhost:3000 to see the dashboard.
+
+## Deployment
+
+The project is deployed and can be accessed at the following link: [Data Dashboard](https://data-dashboard-eight-peach.vercel.app/)
+
+<a href="https://data-dashboard-eight-peach.vercel.app">
+Hello
+</a>
+
+---
+
+<p align="center">Made with ❤️ by <a href="https://github.com/Susmita-Dey/">Susmita</a></p>
