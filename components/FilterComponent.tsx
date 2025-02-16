@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+// import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -32,17 +32,27 @@ interface FilterComponentProps {
   clearFilters: () => void;
 }
 
-const FilterComponent: React.FC<FilterComponentProps> = ({ filters, setFilters, clearFilters }) => {
+const FilterComponent: React.FC<FilterComponentProps> = ({
+  filters,
+  setFilters,
+  clearFilters,
+}) => {
   const handleFilterChange = (field: string, value: string | number | null) => {
-    setFilters({ ...filters, [field]: value });
+    setFilters({ ...filters, [field]: value === "All" ? "" : value });
   };
 
-  const handleMetricChange = (metric: keyof FilterComponentProps["filters"]["metrics"], value: number | null) => {
-    setFilters({ ...filters, metrics: { ...filters.metrics, [metric]: value } });
+  const handleMetricChange = (
+    metric: keyof FilterComponentProps["filters"]["metrics"],
+    value: number | null
+  ) => {
+    setFilters({
+      ...filters,
+      metrics: { ...filters.metrics, [metric]: value },
+    });
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full" suppressHydrationWarning>
       <Tabs defaultValue="dimensions">
         <TabsList>
           <TabsTrigger value="dimensions">Dimensions</TabsTrigger>
@@ -51,32 +61,40 @@ const FilterComponent: React.FC<FilterComponentProps> = ({ filters, setFilters, 
         </TabsList>
         <TabsContent value="dimensions">
           <div className="flex gap-4">
-            <Select onValueChange={(value) => handleFilterChange("country", value)}>
+            <Select
+              onValueChange={(value) => handleFilterChange("country", value)}
+            >
               <SelectTrigger className="w-40">Country</SelectTrigger>
               <SelectContent>
-                <SelectItem value="">All</SelectItem>
-                {[...new Set(mockData.map((item) => item.country))].map((country) => (
-                  <SelectItem key={country} value={country}>
-                    {country}
-                  </SelectItem>
-                ))}
+                <SelectItem value="All">All</SelectItem>
+                {[...new Set(mockData.map((item) => item.country))].map(
+                  (country) => (
+                    <SelectItem key={country} value={country}>
+                      {country}
+                    </SelectItem>
+                  )
+                )}
               </SelectContent>
             </Select>
-            <Select onValueChange={(value) => handleFilterChange("adNetwork", value)}>
+            <Select
+              onValueChange={(value) => handleFilterChange("adNetwork", value)}
+            >
               <SelectTrigger className="w-40">Ad Network</SelectTrigger>
               <SelectContent>
-                <SelectItem value="">All</SelectItem>
-                {[...new Set(mockData.map((item) => item.adNetwork))].map((adNetwork) => (
-                  <SelectItem key={adNetwork} value={adNetwork}>
-                    {adNetwork}
-                  </SelectItem>
-                ))}
+                <SelectItem value="All">All</SelectItem>
+                {[...new Set(mockData.map((item) => item.adNetwork))].map(
+                  (adNetwork) => (
+                    <SelectItem key={adNetwork} value={adNetwork}>
+                      {adNetwork}
+                    </SelectItem>
+                  )
+                )}
               </SelectContent>
             </Select>
             <Select onValueChange={(value) => handleFilterChange("os", value)}>
               <SelectTrigger className="w-40">OS</SelectTrigger>
               <SelectContent>
-                <SelectItem value="">All</SelectItem>
+                <SelectItem value="All">All</SelectItem>
                 {[...new Set(mockData.map((item) => item.os))].map((os) => (
                   <SelectItem key={os} value={os}>
                     {os}
@@ -112,63 +130,108 @@ const FilterComponent: React.FC<FilterComponentProps> = ({ filters, setFilters, 
               type="number"
               placeholder="IPM"
               value={filters.metrics.ipm ?? ""}
-              onChange={(e) => handleMetricChange("ipm", e.target.value ? parseFloat(e.target.value) : null)}
+              onChange={(e) =>
+                handleMetricChange(
+                  "ipm",
+                  e.target.value ? parseFloat(e.target.value) : null
+                )
+              }
               className="p-2 border-2 rounded w-40"
             />
             <input
               type="number"
               placeholder="CTR"
               value={filters.metrics.ctr ?? ""}
-              onChange={(e) => handleMetricChange("ctr", e.target.value ? parseFloat(e.target.value) : null)}
+              onChange={(e) =>
+                handleMetricChange(
+                  "ctr",
+                  e.target.value ? parseFloat(e.target.value) : null
+                )
+              }
               className="p-2 border-2 rounded w-40"
             />
             <input
               type="number"
               placeholder="Spend"
               value={filters.metrics.spend ?? ""}
-              onChange={(e) => handleMetricChange("spend", e.target.value ? parseFloat(e.target.value) : null)}
+              onChange={(e) =>
+                handleMetricChange(
+                  "spend",
+                  e.target.value ? parseFloat(e.target.value) : null
+                )
+              }
               className="p-2 border-2 rounded w-40"
             />
             <input
               type="number"
               placeholder="Impressions"
               value={filters.metrics.impressions ?? ""}
-              onChange={(e) => handleMetricChange("impressions", e.target.value ? parseFloat(e.target.value) : null)}
+              onChange={(e) =>
+                handleMetricChange(
+                  "impressions",
+                  e.target.value ? parseFloat(e.target.value) : null
+                )
+              }
               className="p-2 border-2 rounded w-40"
             />
             <input
               type="number"
               placeholder="Clicks"
               value={filters.metrics.clicks ?? ""}
-              onChange={(e) => handleMetricChange("clicks", e.target.value ? parseFloat(e.target.value) : null)}
+              onChange={(e) =>
+                handleMetricChange(
+                  "clicks",
+                  e.target.value ? parseFloat(e.target.value) : null
+                )
+              }
               className="p-2 border-2 rounded w-40"
             />
             <input
               type="number"
               placeholder="CPM"
               value={filters.metrics.cpm ?? ""}
-              onChange={(e) => handleMetricChange("cpm", e.target.value ? parseFloat(e.target.value) : null)}
+              onChange={(e) =>
+                handleMetricChange(
+                  "cpm",
+                  e.target.value ? parseFloat(e.target.value) : null
+                )
+              }
               className="p-2 border-2 rounded w-40"
             />
             <input
               type="number"
               placeholder="Cost Per Click"
               value={filters.metrics.costPerClick ?? ""}
-              onChange={(e) => handleMetricChange("costPerClick", e.target.value ? parseFloat(e.target.value) : null)}
+              onChange={(e) =>
+                handleMetricChange(
+                  "costPerClick",
+                  e.target.value ? parseFloat(e.target.value) : null
+                )
+              }
               className="p-2 border-2 rounded w-40"
             />
             <input
               type="number"
               placeholder="Cost Per Install"
               value={filters.metrics.costPerInstall ?? ""}
-              onChange={(e) => handleMetricChange("costPerInstall", e.target.value ? parseFloat(e.target.value) : null)}
+              onChange={(e) =>
+                handleMetricChange(
+                  "costPerInstall",
+                  e.target.value ? parseFloat(e.target.value) : null
+                )
+              }
               className="p-2 border-2 rounded w-40"
             />
             <input
               type="number"
               placeholder="Installs"
               value={filters.metrics.installs ?? ""}
-              onChange={(e) => handleMetricChange("installs", e.target.value ? parseFloat(e.target.value) : null)}
+              onChange={(e) =>
+                handleMetricChange(
+                  "installs",
+                  e.target.value ? parseFloat(e.target.value) : null
+                )
+              }
               className="p-2 border-2 rounded w-40"
             />
           </div>

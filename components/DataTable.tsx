@@ -11,6 +11,7 @@ import mockData from "@/data/mockData";
 import DetailsPopup from "./DetailsPopup";
 import { SortAsc, SortDesc } from "lucide-react";
 import FilterComponent from "./FilterComponent";
+import FiltersComp from "./FiltersComp";
 
 const DataTable = () => {
   const [popupOpen, setPopupOpen] = useState(false);
@@ -161,7 +162,7 @@ const DataTable = () => {
   };
 
   return (
-    <div className="container mx-auto max-w-7xl w-full p-6 bg-gray-50 dark:bg-background/75 rounded-lg shadow-md">
+    <div className="container mx-auto max-w-7xl w-full p-6 bg-gray-50 dark:bg-background/75 rounded-lg shadow-md" suppressHydrationWarning>
       <div className="mb-4 flex md:flex-row flex-col gap-4 items-center">
         <input
           type="text"
@@ -191,9 +192,10 @@ const DataTable = () => {
             setFilters={setFilters}
             clearFilters={clearFilters}
           />
-          <Button onClick={clearFilters} variant="outline">
+          {/* <FiltersComp /> */}
+          {/* <Button onClick={clearFilters} variant="outline">
             Reset Filters
-          </Button>
+          </Button> */}
         </div>
       </div>
       <div
