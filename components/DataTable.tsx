@@ -1,15 +1,16 @@
 "use client";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectTrigger,
-  SelectContent,
-  SelectItem,
-} from "@/components/ui/select";
+// import {
+//   Select,
+//   SelectTrigger,
+//   SelectContent,
+//   SelectItem,
+// } from "@/components/ui/select";
 import mockData from "@/data/mockData";
 import DetailsPopup from "./DetailsPopup";
 import { SortAsc, SortDesc } from "lucide-react";
+import FilterComponent from "./FilterComponent";
 
 const DataTable = () => {
   const [popupOpen, setPopupOpen] = useState(false);
@@ -17,11 +18,25 @@ const DataTable = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortedField, setSortedField] = useState<string | null>(null);
   const [ascending, setAscending] = useState(true);
+
   const [filters, setFilters] = useState({
     country: "",
     adNetwork: "",
     os: "",
+    tags: [] as string[],
+    metrics: {
+      ipm: null as number | null,
+      ctr: null as number | null,
+      spend: null as number | null,
+      impressions: null as number | null,
+      clicks: null as number | null,
+      cpm: null as number | null,
+      costPerClick: null as number | null,
+      costPerInstall: null as number | null,
+      installs: null as number | null,
+    },
   });
+
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
@@ -35,7 +50,23 @@ const DataTable = () => {
   };
 
   const clearFilters = () => {
-    setFilters({ country: "", adNetwork: "", os: "" });
+    setFilters({
+      country: "",
+      adNetwork: "",
+      os: "",
+      tags: [],
+      metrics: {
+        ipm: null,
+        ctr: null,
+        spend: null,
+        impressions: null,
+        clicks: null,
+        cpm: null,
+        costPerClick: null,
+        costPerInstall: null,
+        installs: null,
+      },
+    });
   };
 
   const filteredData = mockData
@@ -49,6 +80,56 @@ const DataTable = () => {
       filters.adNetwork ? item.adNetwork === filters.adNetwork : true
     )
     .filter((item) => (filters.os ? item.os === filters.os : true))
+    .filter((item) =>
+      filters.tags.length > 0
+        ? filters.tags.every((tag) => item.tags.includes(tag))
+        : true
+    )
+    .filter((item) =>
+      filters.metrics.ipm !== null
+        ? item.metrics.ipm >= filters.metrics.ipm
+        : true
+    )
+    .filter((item) =>
+      filters.metrics.ctr !== null
+        ? item.metrics.ctr >= filters.metrics.ctr
+        : true
+    )
+    .filter((item) =>
+      filters.metrics.spend !== null
+        ? item.metrics.spend >= filters.metrics.spend
+        : true
+    )
+    .filter((item) =>
+      filters.metrics.impressions !== null
+        ? item.metrics.impressions >= filters.metrics.impressions
+        : true
+    )
+    .filter((item) =>
+      filters.metrics.clicks !== null
+        ? item.metrics.clicks >= filters.metrics.clicks
+        : true
+    )
+    .filter((item) =>
+      filters.metrics.cpm !== null
+        ? item.metrics.cpm >= filters.metrics.cpm
+        : true
+    )
+    .filter((item) =>
+      filters.metrics.costPerClick !== null
+        ? item.metrics.costPerClick >= filters.metrics.costPerClick
+        : true
+    )
+    .filter((item) =>
+      filters.metrics.costPerInstall !== null
+        ? item.metrics.costPerInstall >= filters.metrics.costPerInstall
+        : true
+    )
+    .filter((item) =>
+      filters.metrics.installs !== null
+        ? item.metrics.installs >= filters.metrics.installs
+        : true
+    )
     .sort((a, b) => {
       if (!sortedField) return 0;
       const field = sortedField as keyof typeof a;
@@ -60,6 +141,7 @@ const DataTable = () => {
         ? 1
         : -1;
     });
+
   const [selectedRow, setSelectedRow] = useState<null | (typeof mockData)[0]>(
     null
   );
@@ -89,7 +171,7 @@ const DataTable = () => {
           className="p-2 border-2 rounded w-full"
         />
         <div className="flex gap-4">
-          <Select
+          {/* <Select
             onValueChange={(value) => handleFilterChange("country", value)}
           >
             <SelectTrigger className="w-40">Country</SelectTrigger>
@@ -103,7 +185,12 @@ const DataTable = () => {
                 )
               )}
             </SelectContent>
-          </Select>
+          </Select> */}
+          <FilterComponent
+            filters={filters}
+            setFilters={setFilters}
+            clearFilters={clearFilters}
+          />
           <Button onClick={clearFilters} variant="outline">
             Reset Filters
           </Button>
