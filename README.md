@@ -53,7 +53,7 @@ This project is a frontend assignment given by Segwise company. It is a data das
 The project is deployed and can be accessed at the following link: [Data Dashboard](https://data-dashboard-eight-peach.vercel.app/)
 
 <a href="https://data-dashboard-eight-peach.vercel.app">
-Hello
+<img src="https://github.com/user-attachments/assets/4d1e2c7f-48d1-408c-8a3e-33d61e1d3b78" alt="Data Dashboard" width="100%" />
 </a>
 
 ---
