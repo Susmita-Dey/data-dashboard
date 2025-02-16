@@ -44,9 +44,9 @@ const DetailsPopup: React.FC<DetailsPopupProps> = ({ data, onClose }) => {
         <div className="bg-white dark:bg-background p-4 rounded-lg shadow-lg">
           <div className="mb-4 space-y-2">
             <h3 className="text-xl font-semibold">{data?.creativeName}</h3>
-            <p>
+            <span>
               <strong>ID:</strong> {data?.creativeId}
-            </p>
+            </span>
             <p>
               <strong>Country:</strong> {data?.country}
             </p>

@@ -1,17 +1,10 @@
 "use client";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-// import {
-//   Select,
-//   SelectTrigger,
-//   SelectContent,
-//   SelectItem,
-// } from "@/components/ui/select";
 import mockData from "@/data/mockData";
 import DetailsPopup from "./DetailsPopup";
 import { SortAsc, SortDesc } from "lucide-react";
 import FilterComponent from "./FilterComponent";
-import FiltersComp from "./FiltersComp";
 
 const DataTable = () => {
   const [popupOpen, setPopupOpen] = useState(false);
@@ -46,9 +39,9 @@ const DataTable = () => {
     setSortedField(field);
   };
 
-  const handleFilterChange = (field: string, value: string) => {
-    setFilters({ ...filters, [field]: value });
-  };
+  // const handleFilterChange = (field: string, value: string) => {
+  //   setFilters({ ...filters, [field]: value });
+  // };
 
   const clearFilters = () => {
     setFilters({
@@ -162,7 +155,10 @@ const DataTable = () => {
   };
 
   return (
-    <div className="container mx-auto max-w-7xl w-full p-6 bg-gray-50 dark:bg-background/75 rounded-lg shadow-md" suppressHydrationWarning>
+    <div
+      className="container mx-auto max-w-7xl w-full p-6 bg-gray-50 dark:bg-background/75 rounded-lg shadow-md"
+      suppressHydrationWarning
+    >
       <div className="mb-4 flex md:flex-row flex-col gap-4 items-center">
         <input
           type="text"
@@ -172,30 +168,11 @@ const DataTable = () => {
           className="p-2 border-2 rounded w-full"
         />
         <div className="flex gap-4">
-          {/* <Select
-            onValueChange={(value) => handleFilterChange("country", value)}
-          >
-            <SelectTrigger className="w-40">Country</SelectTrigger>
-            <SelectContent>
-              <SelectItem value="All">All</SelectItem>
-              {[...new Set(mockData.map((item) => item.country))].map(
-                (country) => (
-                  <SelectItem key={country} value={country}>
-                    {country}
-                  </SelectItem>
-                )
-              )}
-            </SelectContent>
-          </Select> */}
           <FilterComponent
             filters={filters}
             setFilters={setFilters}
             clearFilters={clearFilters}
           />
-          {/* <FiltersComp /> */}
-          {/* <Button onClick={clearFilters} variant="outline">
-            Reset Filters
-          </Button> */}
         </div>
       </div>
       <div

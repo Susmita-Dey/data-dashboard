@@ -12,12 +12,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuPortal,
-  DropdownMenuSeparator,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { Separator } from "./ui/separator";
@@ -129,7 +123,7 @@ const FilterComponent: React.FC<FilterComponentProps> = ({
               </div>
             </TabsContent>
             <TabsContent value="tags">
-              <div className="flex w-96 overflow-y-scroll flex-wrap gap-2">
+              <div className="flex w-96 overflow-auto overflow-y-scroll flex-wrap gap-2" style={{ maxHeight: "calc(100vh - 200px)" }}>
                 {[...new Set(mockData.flatMap((item) => item.tags))].map(
                   (tag) => (
                     <Button
@@ -153,7 +147,7 @@ const FilterComponent: React.FC<FilterComponentProps> = ({
               </div>
             </TabsContent>
             <TabsContent value="metrics">
-              <div className="flex flex-col gap-4">
+              <div className="flex flex-col gap-4" style={{ maxHeight: "calc(100vh - 200px)" }}>
                 <input
                   type="number"
                   placeholder="IPM"
