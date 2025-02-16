@@ -27,13 +27,13 @@ const DetailsPopup: React.FC<DetailsPopupProps> = ({ data, onClose }) => {
 
   return (
     <div
-      className={`fixed bottom-0 right-0 w-80 bg-white border border-gray-300 shadow-lg rounded-lg transition-transform duration-300 ease-out ${
+      className={`fixed bottom-0 right-0 w-80 z-50 bg-white dark:bg-background border border-gray-300 shadow-lg rounded-lg transition-transform duration-300 ease-out ${
         isVisible ? "translate-y-0" : "translate-y-full"
       }`}
     >
-      <div className="flex justify-between items-center p-4 border-b border-gray-300">
+      <div className="flex justify-between items-center p-4 border-b border-gray-300 dark:border-gray-700">
         <h2 className="text-lg font-medium">{data?.creativeName}</h2>
-        <Button onClick={handleClose} className="bg-gray-900 hover:bg-gray-700">
+        <Button onClick={handleClose} className="bg-gray-900 hover:bg-gray-700 dark:bg-gray-100 dark:hover:bg-gray-200">
           <X className="w-36 h-36" />
         </Button>
       </div>
@@ -41,7 +41,7 @@ const DetailsPopup: React.FC<DetailsPopupProps> = ({ data, onClose }) => {
         className="p-4 overflow-y-auto"
         style={{ maxHeight: "calc(100vh - 200px)" }}
       >
-        <div className="bg-white p-4 rounded-lg shadow-lg">
+        <div className="bg-white dark:bg-background p-4 rounded-lg shadow-lg">
           <div className="mb-4 space-y-2">
             <h3 className="text-xl font-semibold">{data?.creativeName}</h3>
             <p>

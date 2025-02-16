@@ -9,13 +9,14 @@ import {
 } from "@/components/ui/select";
 import mockData from "@/data/mockData";
 import DetailsPopup from "./DetailsPopup";
+import { SortAsc, SortDesc } from "lucide-react";
 
 const DataTable = () => {
   const [popupOpen, setPopupOpen] = useState(false);
 
   const [searchQuery, setSearchQuery] = useState("");
-  // const [sortedField, setSortedField] = useState<string | null>(null);
-  // const [ascending, setAscending] = useState(true);
+  const [sortedField, setSortedField] = useState<string | null>(null);
+  const [ascending, setAscending] = useState(true);
   const [filters, setFilters] = useState({
     country: "",
     adNetwork: "",
@@ -24,10 +25,10 @@ const DataTable = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
-  // const handleSort = (field: string) => {
-  //   setAscending(sortedField === field ? !ascending : true);
-  //   setSortedField(field);
-  // };
+  const handleSort = (field: string) => {
+    setAscending(sortedField === field ? !ascending : true);
+    setSortedField(field);
+  };
 
   const handleFilterChange = (field: string, value: string) => {
     setFilters({ ...filters, [field]: value });
@@ -47,18 +48,18 @@ const DataTable = () => {
     .filter((item) =>
       filters.adNetwork ? item.adNetwork === filters.adNetwork : true
     )
-    .filter((item) => (filters.os ? item.os === filters.os : true));
-  // .sort((a, b) => {
-  //   if (!sortedField) return 0;
-  //   const field = sortedField as keyof typeof a;
-  //   return ascending
-  //     ? a[field] > b[field]
-  //       ? 1
-  //       : -1
-  //     : a[field] < b[field]
-  //     ? 1
-  //     : -1;
-  // });
+    .filter((item) => (filters.os ? item.os === filters.os : true))
+    .sort((a, b) => {
+      if (!sortedField) return 0;
+      const field = sortedField as keyof typeof a;
+      return ascending
+        ? a[field] > b[field]
+          ? 1
+          : -1
+        : a[field] < b[field]
+        ? 1
+        : -1;
+    });
   const [selectedRow, setSelectedRow] = useState<null | (typeof mockData)[0]>(
     null
   );
@@ -78,7 +79,7 @@ const DataTable = () => {
   };
 
   return (
-    <div className="container mx-auto max-w-7xl w-full p-6 bg-gray-50 rounded-lg shadow-md">
+    <div className="container mx-auto max-w-7xl w-full p-6 bg-gray-50 dark:bg-background/75 rounded-lg shadow-md">
       <div className="mb-4 flex md:flex-row flex-col gap-4 items-center">
         <input
           type="text"
@@ -88,22 +89,24 @@ const DataTable = () => {
           className="p-2 border-2 rounded w-full"
         />
         <div className="flex gap-4">
-        <Select onValueChange={(value) => handleFilterChange("country", value)}>
-          <SelectTrigger className="w-40">Country</SelectTrigger>
-          <SelectContent>
-            <SelectItem value="All">All</SelectItem>
-            {[...new Set(mockData.map((item) => item.country))].map(
-              (country) => (
-                <SelectItem key={country} value={country}>
-                  {country}
-                </SelectItem>
-              )
-            )}
-          </SelectContent>
-        </Select>
-        <Button onClick={clearFilters} variant="outline">
-          Reset Filters
-        </Button>
+          <Select
+            onValueChange={(value) => handleFilterChange("country", value)}
+          >
+            <SelectTrigger className="w-40">Country</SelectTrigger>
+            <SelectContent>
+              <SelectItem value="All">All</SelectItem>
+              {[...new Set(mockData.map((item) => item.country))].map(
+                (country) => (
+                  <SelectItem key={country} value={country}>
+                    {country}
+                  </SelectItem>
+                )
+              )}
+            </SelectContent>
+          </Select>
+          <Button onClick={clearFilters} variant="outline">
+            Reset Filters
+          </Button>
         </div>
       </div>
       <div
@@ -111,24 +114,39 @@ const DataTable = () => {
         suppressHydrationWarning
       >
         <table className="min-w-full text-sm px-4">
-          <thead className="bg-slate-300 space-y-1">
-            <tr className="divide-x-2 divide-slate-200 space-x-2">
-              <th
-              // onClick={() => handleSort("creativeId")}
-              // className="cursor-pointer flex items-center gap-1"
-              >
-                ID
-                {/* ID{" "}
-              {sortedField === "creativeId" &&
-                (ascending ? <ChevronUp /> : <ChevronDown />)} */}
+          <thead className="bg-slate-300 dark:bg-slate-900 space-y-1">
+            <tr className="divide-x-2 divide-slate-200 dark:divide-inherit space-x-2">
+              <th>
+                <span
+                  onClick={() => handleSort("creativeId")}
+                  className="flex justify-center items-center gap-1 text-center"
+                >
+                  <p>ID</p>
+                  <span>
+                    {sortedField === "creativeId" &&
+                      (ascending ? (
+                        <SortAsc className="cursor-pointer" />
+                      ) : (
+                        <SortDesc className="cursor-pointer" />
+                      ))}
+                  </span>
+                </span>
               </th>
-              <th
-              // onClick={() => handleSort("creativeName")}
-              // className="cursor-pointer flex items-center gap-1"
-              >
-                Name
-                {/* {sortedField === "creativeName" &&
-                (ascending ? <ChevronUp /> : <ChevronDown />)} */}
+              <th>
+                <span
+                  onClick={() => handleSort("creativeName")}
+                  className="flex justify-center items-center gap-1 text-center"
+                >
+                  <p>Name</p>
+                  <span>
+                    {sortedField === "creativeName" &&
+                      (ascending ? (
+                        <SortAsc className="cursor-pointer" />
+                      ) : (
+                        <SortDesc className="cursor-pointer" />
+                      ))}
+                  </span>
+                </span>
               </th>
               {/* <th>Tags</th> */}
               <th className="p-2">Country</th>
@@ -151,7 +169,7 @@ const DataTable = () => {
             {displayedData.map((item) => (
               <tr
                 key={item.creativeId}
-                className="cursor-pointer hover:bg-gray-200 divide-x-2 space-x-2"
+                className="cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-950 divide-x-2 space-x-2"
                 onClick={() => handleTextClick(item)}
               >
                 <td className="px-2 text-center">{item.creativeId}</td>

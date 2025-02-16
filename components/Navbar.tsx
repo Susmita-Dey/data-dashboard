@@ -4,6 +4,7 @@ import { ContactRoundIcon, GithubIcon, HomeIcon } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import { Button } from "./ui/button";
+import { ModeToggle } from "./ModeToggle";
 
 const Navbar = () => {
   return (
@@ -35,6 +36,7 @@ const Navbar = () => {
               <span className="md:block hidden">Contact</span>
             </Button>
           </Link>
+          <ModeToggle />
         </div>
       </nav>
     </header>
