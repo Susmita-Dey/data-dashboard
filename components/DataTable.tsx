@@ -1,13 +1,5 @@
 "use client";
 import { useState } from "react";
-import {
-  Table,
-  TableHeader,
-  TableBody,
-  TableRow,
-  TableHead,
-  TableCell,
-} from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -15,20 +7,12 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-} from "@/components/ui/dialog";
-// import { ChevronUp, ChevronDown } from "lucide-react";
 import mockData from "@/data/mockData";
+import DetailsPopup from "./DetailsPopup";
 
 const DataTable = () => {
-  const [selectedRow, setSelectedRow] = useState<null | (typeof mockData)[0]>(
-    null
-  );
+  const [popupOpen, setPopupOpen] = useState(false);
+
   const [searchQuery, setSearchQuery] = useState("");
   // const [sortedField, setSortedField] = useState<string | null>(null);
   // const [ascending, setAscending] = useState(true);
@@ -75,12 +59,23 @@ const DataTable = () => {
   //     ? 1
   //     : -1;
   // });
-
+  const [selectedRow, setSelectedRow] = useState<null | (typeof mockData)[0]>(
+    null
+  );
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
   const displayedData = filteredData.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
+
+  const handleTextClick = (item: (typeof mockData)[0]) => {
+    setPopupOpen(true);
+    setSelectedRow(item);
+  };
+
+  const handleClosePopup = () => {
+    setPopupOpen(false);
+  };
 
   return (
     <div className="p-6 bg-gray-50 rounded-lg shadow-md">
@@ -135,10 +130,11 @@ const DataTable = () => {
           Reset Filters
         </Button>
       </div>
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead
+      <div className="overflow-hidden" suppressHydrationWarning>
+      <table className="min-w-full text-sm">
+          <thead>
+          <tr>
+            <th
             // onClick={() => handleSort("creativeId")}
             // className="cursor-pointer flex items-center gap-1"
             >
@@ -146,38 +142,60 @@ const DataTable = () => {
               {/* ID{" "}
               {sortedField === "creativeId" &&
                 (ascending ? <ChevronUp /> : <ChevronDown />)} */}
-            </TableHead>
-            <TableHead
+            </th>
+            <th
             // onClick={() => handleSort("creativeName")}
             // className="cursor-pointer flex items-center gap-1"
             >
               Name
               {/* {sortedField === "creativeName" &&
                 (ascending ? <ChevronUp /> : <ChevronDown />)} */}
-            </TableHead>
-            <TableHead>Tags</TableHead>
-            <TableHead>Country</TableHead>
-            <TableHead>Ad Network</TableHead>
-            <TableHead>OS</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody className="divide-y-4 divide-black divide-x-8 overflow-auto">
+            </th>
+            {/* <th>Tags</th> */}
+            <th>Country</th>
+            <th>Ad Network</th>
+            <th>OS</th>
+            <th>Campaign</th>
+            <th>Ad Group</th>
+            <th>IPM</th>
+            <th>CTR</th>,<th>Spend</th>
+            <th>Impressions</th>
+            <th>Clicks</th>
+            <th>CPM</th>
+            <th>Cost Per Click</th>
+            <th>Cost Per Install</th>
+            <th>Installs</th>
+          </tr>
+        </thead>
+        <tbody className="divide-y">
           {displayedData.map((item) => (
-            <TableRow
+            <tr
               key={item.creativeId}
-              className="cursor-pointer hover:bg-gray-100"
-              onClick={() => setSelectedRow(item)}
+              className="cursor-pointer hover:bg-gray-200"
+              onClick={() => handleTextClick(item)}
             >
-              <TableCell>{item.creativeId}</TableCell>
-              <TableCell>{item.creativeName}</TableCell>
-              <TableCell>{item.tags.join(", ")}</TableCell>
-              <TableCell>{item.country}</TableCell>
-              <TableCell>{item.adNetwork}</TableCell>
-              <TableCell>{item.os}</TableCell>
-            </TableRow>
+              <td>{item.creativeId}</td>
+              <td>{item.creativeName}</td>
+              {/* <td>{item.tags.join(", ")}</td> */}
+              <td>{item.country}</td>
+              <td>{item.adNetwork}</td>
+              <td>{item.os}</td>
+              <td>{item.campaign}</td>
+              <td>{item.adGroup}</td>
+              <td>{item.metrics.ipm}</td>
+              <td>{item.metrics.ctr}</td>
+              <td>{item.metrics.spend}</td>
+              <td>{item.metrics.impressions}</td>
+              <td>{item.metrics.clicks}</td>
+              <td>{item.metrics.cpm}</td>
+              <td>{item.metrics.costPerClick}</td>
+              <td>{item.metrics.costPerInstall}</td>
+              <td>{item.metrics.installs}</td>
+            </tr>
           ))}
-        </TableBody>
-      </Table>
+        </tbody>
+      </table>
+      </div>
       <div className="flex justify-between items-center mt-4">
         <Button
           onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
@@ -197,31 +215,9 @@ const DataTable = () => {
           Next
         </Button>
       </div>
-      <Dialog open={!!selectedRow} onOpenChange={() => setSelectedRow(null)}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>{selectedRow?.creativeName}</DialogTitle>
-            <DialogDescription>
-              <span>
-                <strong>ID:</strong> {selectedRow?.creativeId}
-              </span>
-              <span>
-                <strong>Country:</strong> {selectedRow?.country}
-              </span>
-              <span>
-                <strong>Ad Network:</strong> {selectedRow?.adNetwork}
-              </span>
-              <span>
-                <strong>OS:</strong> {selectedRow?.os}
-              </span>
-              <span>
-                <strong>Tags:</strong> {selectedRow?.tags.join(", ")}
-              </span>
-            </DialogDescription>
-          </DialogHeader>
-          <Button onClick={() => setSelectedRow(null)}>Close</Button>
-        </DialogContent>
-      </Dialog>
+      {popupOpen && (
+        <DetailsPopup data={selectedRow} onClose={handleClosePopup} />
+      )}
     </div>
   );
 };

@@ -1,6 +1,9 @@
 "use client";
 import {
   BarChart,
+  Line,
+  LineChart,
+  LineProps,
   Bar,
   PieChart,
   Pie,
@@ -10,6 +13,7 @@ import {
   Tooltip,
   ResponsiveContainer,
   Legend,
+  CartesianGrid,
 } from "recharts";
 import mockData from "@/data/mockData";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -43,7 +47,7 @@ const ChartSection = () => {
   const { countryChart, adNetworkChart } = processData();
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6">
+    <div className="grid grid-cols-2 md:grid-cols-3 gap-6 p-6">
       {/* Pie Chart for Country Distribution */}
       <Card>
         <CardHeader>
@@ -88,6 +92,24 @@ const ChartSection = () => {
               <Legend />
               <Bar dataKey="value" fill="#0088FE" />
             </BarChart>
+          </ResponsiveContainer>
+        </CardContent>
+      </Card>
+
+      {/* Bar Chart for Ad Network Usage */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Ad Network Usage</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <ResponsiveContainer width="100%" height={300}>
+            <LineChart data={adNetworkChart}>
+              <XAxis dataKey="name" />
+              <YAxis dataKey="value" />
+              <CartesianGrid stroke="#eee" strokeDasharray="5 5" />
+              <Line type="monotone" dataKey="uv" stroke="#8884d8" />
+              <Line type="monotone" dataKey="pv" stroke="#82ca9d" />
+            </LineChart>
           </ResponsiveContainer>
         </CardContent>
       </Card>
